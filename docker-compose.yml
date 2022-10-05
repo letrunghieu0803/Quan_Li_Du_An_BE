@@ -1,0 +1,38 @@
+version: '3'
+services:
+
+    pgadmin:
+        image: dpage/pgadmin4
+        environment:
+            PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+            PGADMIN_DEFAULT_PASSWORD: secret
+            PGADMIN_CONFIG_SERVER_MODE: 'False'
+        volumes:
+            - pgadmin:/var/lib/pgadmin
+
+        ports:
+            - "9003:80"
+
+    postgresdb:
+        image: 'postgres:14'
+        volumes:
+            - quan-li-cong-viec-db-store:/var/lib/postgres
+        environment:
+            - POSTGRES_DB=quan-li-cong-viec-db
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=secret
+        deploy:
+            resources:
+                limits:
+                    # cpus: 0.50
+                    memory: 2048M
+                reservations:
+                    # cpus: 0.25
+                    memory: 1536M
+        ports:
+            - 5432:5432
+volumes:
+    quan-li-cong-viec-db-store:
+        driver: local
+    pgadmin:
+        driver: local

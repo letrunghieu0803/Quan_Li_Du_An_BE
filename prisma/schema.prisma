@@ -1,0 +1,97 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RoleType {
+  SUPPERADMIN
+  ADMIN
+  USER
+}
+
+model User {
+  id           Int            @id @default(autoincrement())
+  firstName    String
+  lastName     String
+  birthday     DateTime
+  email        String
+  thumbnail    String
+  phone        Int
+  gender       String
+  role         RoleType
+  deleteFlg    Boolean
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  Notification Notification[]
+  Project      Project[]
+}
+
+model Notification {
+  id           Int     @id @default(autoincrement())
+  id_user      Int
+  User         User?   @relation(fields: [id_user], references: [id])
+  descriptions String
+  deleteFlg    Boolean @default(true)
+}
+
+model Project {
+  id      Int     @id @default(autoincrement())
+  name    String
+  id_user Int
+  User    User?   @relation(fields: [id_user], references: [id])
+  Group   Group[]
+}
+
+model Group {
+  id         Int          @id @default(autoincrement())
+  name       String
+  id_project Int
+  Project    Project?     @relation(fields: [id_project], references: [id])
+  List       List[]
+  TaskStatus TaskStatus[]
+}
+
+model List {
+  id       Int    @id @default(autoincrement())
+  name     String
+  id_group Int
+  Group    Group? @relation(fields: [id_group], references: [id])
+  Task     Task[]
+}
+
+model TaskStatus {
+  id Int @id @default(autoincrement())
+
+  color String
+
+  name String
+
+  id_group Int
+  Group    Group? @relation(fields: [id_group], references: [id])
+  Task     Task[]
+}
+
+model Task {
+  id      Int    @id @default(autoincrement())
+  name    String
+  id_list Int
+  List    List?  @relation(fields: [id_list], references: [id])
+
+  title String
+
+  descriptions String
+
+  estimate_time DateTime
+
+  level String
+
+  id_task_status Int
+  TaskStatus     TaskStatus? @relation(fields: [id_task_status], references: [id])
+}
