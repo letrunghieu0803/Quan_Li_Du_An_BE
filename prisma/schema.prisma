@@ -31,6 +31,9 @@ model User {
   updatedAt    DateTime       @updatedAt
   Notification Notification[]
   Project      Project[]
+  tasks        Task[]
+  lists        List[]
+  groups       Group[]
 }
 
 model Notification {
@@ -56,6 +59,7 @@ model Group {
   Project    Project?     @relation(fields: [id_project], references: [id])
   List       List[]
   TaskStatus TaskStatus[]
+  users      User[]
 }
 
 model List {
@@ -64,6 +68,7 @@ model List {
   id_group Int
   Group    Group? @relation(fields: [id_group], references: [id])
   Task     Task[]
+  users    User[]
 }
 
 model TaskStatus {
@@ -94,4 +99,5 @@ model Task {
 
   id_task_status Int
   TaskStatus     TaskStatus? @relation(fields: [id_task_status], references: [id])
+  users          User[]
 }

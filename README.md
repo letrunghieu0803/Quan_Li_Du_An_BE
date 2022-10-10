@@ -71,3 +71,16 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+
+## Cài NodeJS
+
+## Quản Lí Công Việc Back end
+ 
+git clone link github
+
+Tải và cài đặt docker gitdestop
+
+chạy lệnh "docker compose up -d" để khởi chạy database được cài trên docker với cổng local:9003
+
+khởi chạy bằng "npm run start:dev"
